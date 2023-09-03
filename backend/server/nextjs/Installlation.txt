@@ -1,0 +1,83 @@
+
+# INstalling NodeJS using NVM (Node version managaer)
+
+# install nvm
+# Link - https://github.com/nvm-sh/nvm#install--update-script
+
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+# then in terminal u get below response like,
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# just copy paste on terminal and hit enter
+# then run below command
+
+source ~/.bashrc
+
+# Get latest available node LTS versions or all versions
+nvm list-remote
+
+# Install specific node LTS versions
+nvm install [LTS_NODE_V]
+
+# install nodejs, npm & yarn --> globally
+# Upgrade npm ---
+npm install -g npm@9.4.0
+
+or 
+
+npm install -g npm@[ANY_LATEST_V]
+
+# Install yarn globally
+npm install -g yarn
+
+
+
+# install PM2 globally
+npm install -g pm2
+
+# add sites-available/next_web.conf
+# next_web.conf content u get in nginx folder
+
+# go to project dir 
+cd /var/next_app/
+
+pm2 start npm --name [project_name] --start
+
+
+# adding SSL
+sudo certbot --nginx -d [frontend_domain_name]
+
+
+# use same config steps for another next app
+# Remember only to add another next app's build to run on different port
+"scripts": {
+    "dev" : "next dev",
+    ....
+    "start" : "next start -p 3001,
+    ...
+}
+
+# then build the project
+# then start PM2 for another project
+pm2 start npm --name [project_name] --start
+
+# adding SSL for another next_app
+sudo certbot --nginx -d [frontend_domain_name]
+
+
+pm2 status
+or
+pm2 list
+
+# optional
+# To check dev server status
+sudo ufw allow 3000
+sudo ufw delete allow 3000
+
+# Make pm2 auto-boot at server restart:
+pm2 startup
+or
+sudo env PATH=$PATH:/home/ubuntu/.nvm/versions/node/v18.13.0/bin /home/ubuntu/.nvm/versions/node/v18.13.0/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu

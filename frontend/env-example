@@ -1,0 +1,4 @@
+NEXT_PUBLIC_HOST=http://localhost:8000
+NEXT_PUBLIC_REDIRECT_URL=http://localhost:3000
+NEXT_PUBLIC_GTM_ID=xxxxxxxx
+NEXT_PUBLIC_META_ID=xxxxxxxxx

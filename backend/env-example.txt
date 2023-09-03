@@ -1,0 +1,105 @@
+# For Production
+# DEBUG=False
+# DEV_PAHSE=prod
+
+# For Development / Test server
+# DEBUG=False
+# DEV_PAHSE=dev
+
+# For Local Development
+DEBUG=True
+DEV_PAHSE=local
+
+SECRET_KEY=django-insecure-#5yviaczkw)jsjrt!o!juj3=f5w9c)*hgi^makpzwvs((tz45*
+PRODUCTION_SECRETE_KEY=HGb$ahsvva#5yviaczkw)jsjrt!o!juj3=f5w9c)*hgi^makpzwvs((tz45*
+
+ALLOWED_HOSTS="127.0.0.1 [::1] localhost IP_ADDRESS YOUR_DOMAIN.com"
+SQLITE_URL=sqlite:///sqlite.db
+
+# SMTP Email Bckend for Local Dev
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.mailtrap.io
+EMAIL_PORT=2525
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=xxxxxxxxxxxxx
+EMAIL_HOST_PASSWORD=xxxxxxxxxxxxxxx
+EMAIL_FROM=YOUR_DOMAIN@gmail.com
+
+DOMIAN=YOUR_DOMAIN.com
+SITE_NAME=YOUR_DOMAIN
+
+# Celery Email Backend for Docker Development
+CLRY_EMAIL_BACKEND=djcelery_email.backends.CeleryEmailBackend
+CLRY_EMAIL_HOST=smtp.mailtrap.io
+CLRY_EMAIL_PORT=2525
+CLRY_EMAIL_USE_TLS=True
+CLRY_EMAIL_HOST_USER=xxxxxxxxxxxxxxxxxxxxxx
+CLRY_EMAIL_HOST_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxx
+CLRY_EMAIL_FROM=YOUR_DOMAIN@gmail.com
+
+# Celery Email Backend for Docker Development
+CLRYPROD_EMAIL_BACKEND=djcelery_email.backends.CeleryEmailBackend
+CLRYPROD_EMAIL_HOST=smtp.mailtrap.io
+CLRYPROD_EMAIL_PORT=2525
+CLRYPROD_EMAIL_USE_TLS=True
+CLRYPROD_EMAIL_HOST_USER=xxxxxxxxxxxxxxxxxxxxxxxx
+CLRYPROD_EMAIL_HOST_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CLRYPROD_EMAIL_FROM=YOUR_DOMAIN@gmail.com
+
+
+# PGSQL DB Backend for Nginx Production
+TEST_DB_ENGINE=django.db.backends.postgresql
+TEST_DB_NAME=DB_NAME
+TEST_DB_USER=DB_USER
+TEST_DB_PASS=DB_PASSWORD
+TEST_DB_HOST=localhost
+TEST_DB_PORT=5432
+
+DEV_DB_ENGINE=django.db.backends.postgresql
+DEV_DB_NAME=DB_NAME
+DEV_DB_USER=DB_USER
+DEV_DB_PASS=DB_PASSWORD
+DEV_DB_HOST=localhost
+DEV_DB_PORT=5432
+
+PROD_DB_ENGINE=django.db.backends.postgresql
+PROD_DB_NAME=DB_NAME
+PROD_DB_USER=DB_USER
+PROD_DB_PASS=DB_PASSWORD
+PROD_DB_HOST=localhost
+PROD_DB_PORT=5432
+
+
+
+SIGNING_KEY=sdddadasdwqwqwsasdmadm
+
+ALLOWED_DOMAIN=https://YOUR_DOMAIN.vercel.com
+API_URL=http://YOUR_DOMAIN
+
+CELERY_BROKER=redis://redis:6379/0
+CELERY_BACKEND=redis://redis:6379/0
+
+# working --> by Venya
+account_sid=xxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+auth_token=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+from_number=+1123232545
+
+account_sid_dev=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+auth_token_dev=xxxxxxxxcccccccccccc
+from_number_dev=+173343434
+
+# Razorpay
+RAZORPAY_LIVE_KEY_ID=assssssssssss
+RAZORPAY_LIVE_KEY_SECRET=vssddsfsdff
+
+RAZORPAY_TEST_KEY_ID=dfsdfsdfsdfsdf
+RAZORPAY_TEST_KEY_SECRET=4cvcxvcvxcvxv
+
+RAZORPAY_WEBHOOK_KEY_SECRET=zdasewewe
+
+PAYMENT_CHECKOUT_TIME_IN_SECONDS=600
+
+# For Instamojo
+API_KEY=xxxxxxxxxxxxx
+AUTH_TOKEN=xxxxxxxxxxxxxxxxxxx
+SALT=xxxxxxxxxxxxxxxxxxxxx

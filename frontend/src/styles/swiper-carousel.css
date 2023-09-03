@@ -1,0 +1,161 @@
+/* React Multi Carousel Custom css */
+.heightFull,
+.heightFull .carouselWrapper,
+.heightFull .carouselWrapper > .swiper,
+.heightFull .carouselWrapper > .swiper > .swiper-wrapper,
+.heightFull .carouselWrapper > .swiper > .swiper-wrapper .swiper-slide > div,
+.heightFull .carouselWrapper > .swiper > .swiper-wrapper .swiper-slide > a,
+.heightFull
+  .carouselWrapper
+  > .swiper
+  > .swiper-wrapper
+  .swiper-slide
+  > a
+  > .group {
+  height: 100%;
+}
+.swiper-wrapper .swiper-slide {
+  padding-bottom: 2px;
+  height: auto;
+}
+.swiper .swiper-button-prev,
+.swiper .swiper-button-next {
+  display: none;
+}
+.carouselWrapper .swiper-button-disabled {
+  opacity: 0.5;
+  cursor: no-drop;
+}
+.carouselWrapper .swiper-button-disabled:hover {
+  background-color: #fff !important;
+  color: #000;
+}
+.carouselWrapper .swiper .swiper-pagination-bullets .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  background-color: #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+}
+.carouselWrapper .swiper .swiper-pagination-bullets {
+  bottom: 20px;
+}
+.carouselWrapper
+  .swiper
+  .swiper-pagination-bullets
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  width: 16px;
+  background-color: #000;
+}
+@media screen and (min-width: 480px) {
+  .carouselWrapper .swiper .swiper-pagination-bullets {
+    bottom: 24px;
+  }
+  .carouselWrapper
+    .swiper
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+  }
+  .carouselWrapper
+    .swiper
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    width: 20px;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .carouselWrapper .swiper .swiper-pagination-bullets {
+    bottom: 28px;
+  }
+  .carouselWrapper.pagination-left .swiper-pagination-bullets {
+    bottom: 52px;
+  }
+  .carouselWrapper
+    .swiper
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  .carouselWrapper
+    .swiper
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    width: 28px;
+  }
+}
+
+.carouselWrapper.dotsCircle
+  .swiper
+  .swiper-pagination-bullets
+  .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 4px;
+  margin-right: 4px;
+  opacity: 0.5;
+  transform: scale(0.7);
+}
+.carouselWrapper.dotsCircle
+  .swiper
+  .swiper-pagination-bullets
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background-color: #fff;
+  opacity: 1;
+  transform: scale(1);
+}
+.carouselWrapper.pagination-left .swiper-pagination-bullets {
+  display: inline-flex;
+  text-align: left;
+  width: auto;
+}
+.carouselWrapper.hero-grid-carousel .swiper-horizontal > .swiper-scrollbar {
+  left: 0;
+  width: 100%;
+}
+.carouselWrapper.hero-grid-carousel .swiper-horizontal > .swiper-wrapper {
+  padding-bottom: 60px;
+}
+.testimonial-carousel .swiper {
+  padding-bottom: 35px;
+}
+.testimonial-carousel .swiper-horizontal .swiper-scrollbar {
+  background-color: #f1f1f1;
+}
+.testimonial-carousel .swiper-scrollbar-drag {
+  background-color: #212121;
+}
+@media screen and (min-width: 768px) {
+  .testimonial-carousel .swiper-slide-active > div {
+    background-color: #fff;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.08);
+  }
+  .testimonial-carousel .swiper .swiper-wrapper > div {
+    padding: 15px 14px 0;
+  }
+  .testimonial-carousel .swiper {
+    padding-bottom: 45px;
+    margin-left: -30px;
+    margin-right: -14px;
+    margin-top: -15px;
+  }
+  .testimonial-carousel .swiper .swiper-wrapper > div.swiper-slide-active {
+    padding-left: 30px;
+  }
+  .testimonial-carousel .swiper-horizontal .swiper-scrollbar {
+    width: calc(100% - 44px);
+  }
+}
+@media screen and (min-width: 1280px) {
+  .testimonial-carousel .swiper {
+    padding-bottom: 60px;
+  }
+}

@@ -1,0 +1,17 @@
+
+        @font-face {
+            font-family: optima;
+            src: url('{% static "email_fonts/OPTIMA.woff" %}');
+
+        }
+
+        @font-face {
+            font-family: holland;
+            src: url('{% static "email_fonts/Bacalisties.woff" %}');
+            
+        }
+        
+        @font-face {
+            font-family: optimaM;
+            src: url('{% static "email_fonts/Optima_Medium.woff" %}');
+        }

@@ -1,0 +1,76 @@
+1. Install Broker
+    redis / rabbitmq
+    for redis (Ubuntu):- https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04
+
+
+2. install celery
+    pip install celery
+    pip install django-celery-beat
+    pip install django-celery-results
+
+
+3. add config to settings.py
+    INSTALLED_APPS += [
+        "django_celery_results",
+        "django_celery_beat"
+    ]
+
+    CELERY_BROKER_URL = "redis://localhost:6379"
+    CELERY_ACCEPT_CONTENT = ["application/json"]
+    CELERY_RESULT_SERIALIZER = "json"
+    CELERY_TASK_SERIALIZER = "json"
+    CELERY_RESULT_BACKEND = "django-db"
+    CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+4. project level ---> project/celery.py
+
+    import os
+
+    from celery import Celery
+    from celery.schedules import crontab
+
+    # Set the default Django settings module for the 'celery' program.
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+
+    app = Celery("project")
+    app.conf.enable_utc = True
+
+    app.conf.beat_schedule = {
+        # Executes every midnight
+        "every-midnight": {
+            "task": "app.tasks.some_task_name",
+            "schedule": crontab(hour=0, minute=0),
+        }
+    }
+
+    # Using a string here means the worker doesn't have to serialize
+    # the configuration object to child processes.
+    # - namespace='CELERY' means all celery-related configuration keys
+    #   should have a `CELERY_` prefix.
+    app.config_from_object("django.conf:settings", namespace="CELERY")
+
+    # Load task modules from all registered Django apps.
+    app.autodiscover_tasks()
+
+
+    @app.task(bind=True)
+    def debug_task(self):
+        print(f"Request: {self.request!r}")
+
+
+5. project level __init__.py
+    from .celery import app as celery_app
+    __all__ = ("celery_app",)   
+
+6. app/tasks.py
+    from project.celery import app
+
+    @app.task
+    def some_tasks():
+        pass
+
+7. Run worker
+    celery -A project worker -l info
+
+8. Run Beat
+    celery -A project beat -l info

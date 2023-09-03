@@ -1,0 +1,45 @@
+django
+django-environ
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+django-jazzmin==2.4.8
+django-ckeditor
+django-dbbackup
+django-q
+django-celery-beat
+django-celery-results
+django-redis
+django-rq
+django-extensions
+Pillow
+psycopg2-binary
+gunicorn
+six
+typing-extensions
+flake8
+black
+isort
+toml
+wheel
+twilio
+# pytest-django
+# pytest-factoryboy
+# Faker
+# pytest-cov
+redis
+celery
+# flower==0.9.7
+# django-celery-email
+PyYAML
+watchdog
+drf-yasg
+jsonschema
+# rq
+# rq-scheduler
+# schedule
+sentry-sdk
+razorpay
+# instamojo_wrapper
+# stripe
+django-redis-cache

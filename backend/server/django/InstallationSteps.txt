@@ -1,0 +1,296 @@
+## After login to Remote Server Run Below commands step by step
+## Make sure to replace Below variables as per Your .env and projects 
+# HOST_NAME
+# IP_ADDRESS
+# SERVER_USER_NAME
+# DB_NAME
+# DB_USER
+# DB_PASSWORD
+# YOUR_DOMAIN
+# GIT_REPO_NAME --> Project name from Git Repo link
+# YOUR_GIT_REPO_LINK --> Git Repo link
+
+hostnamectl set-hostname HOST_NAME
+# e.g.
+hostnamectl set-hostname innerkomfort-ecom
+
+nano /etc/hosts
+
+# add below lines
+IP_ADDRES HOST_NAME
+# e.g.
+172.22.145.21 innerkomfort-ecom
+
+# Adding user
+adduser munir
+adduser wmds sudo
+
+exit
+
+# login back using below command, enter added user password
+ssh wmds@IP_ADDRESS
+
+mkdir -p ~/.ssh
+
+
+
+# KeyGeneration on Win10
+-----------------------------
+ssh-keygen -b 4096
+
+# "C:\Users\PC_USER_NAME/.ssh/" location to your remote server location using Filezilla.
+# Make sure id_rsa.pub will be replaced in .ssh directory if already exists.
+# When it confired, then generate HOST_NAME.ppk using "genputty" software for further remote server access.
+# copy transfered id_rsa.pub to "authorized_keys"
+scp ~/.ssh/id_rsa.pub SERVER_USER_NAME@IP_ADDRESS:~/.ssh/authorized_keys
+
+**save in " ~/.ssh/authorized_keys "
+
+rm .ssh/id_rsa.pub
+-----------------------------
+
+
+# For Linux/wmds/Debian 
+# "~/.ssh/" location to your remote server location
+-----------------------------
+# Generate & Save ssh key respective HOST_NAME
+sudo ssh-keygen -b 4096
+
+sudo scp ~/.ssh/id_rsa.pub SERVER_USER_NAME@IP_ADDRESS:~/.ssh/authorized_keys
+# then enter passowrd to save
+-----------------------------
+
+
+sudo chmod 700 ~/.ssh/
+**enter password
+
+sudo chmod 600 ~/.ssh/*
+
+#IMP
+sudo apt update && sudo apt upgrade
+
+#I'm from india so I have selected 'Asia/Kolkata', enter as per your zone
+sudo timedatectl set-timezone 'Asia/Kolkata'
+
+exit
+
+# Now you can logi to remote server again using ssh key or without passowrd authentication
+ssh wmds@IP_ADDRES
+
+sudo nano /etc/ssh/sshd_config
+# enter password
+
+# find "AddressFamily any"
+# set to inet
+
+# find "PermitRootLogin yes"
+# set to "No"
+
+# find "PasswordAuthentication yes" 
+# set to "no"
+
+# Optional
+# find "ChallengeResponseAuthentication no" 
+# set to "yes"
+
+# press (ctrl+x) then y and hit Enter to save and exit
+
+sudo systemctl restart sshd
+
+
+
+# Install Nginx & Securing Linode Server Firewall rules
+----------------------------
+sudo apt install zip unzip
+sudo apt install ufw
+sudo apt install nginx curl
+
+# After installing Nginx, the commands below will be helpful for Nginx service to always start up with the server boots.
+sudo systemctl stop nginx.service
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
+
+# Configuring Firewall & Nginx Auto Restart
+sudo ufw app list
+
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
+sudo ufw allow http/tcp
+sudo ufw allow ssh
+sudo ufw allow in "Nginx Full"
+sudo ufw allow "Nginx HTTP"
+sudo ufw allow "Nginx HTTPS"
+sudo ufw enable
+# enter "y"(yes)
+sudo ufw status
+
+# Nginx Automatic Restart After Boot
+sudo mkdir -p /etc/systemd/system/nginx.service.d/
+
+sudo nano /etc/systemd/system/nginx.service.d/restart.conf
+
+# In "restart.conf" Add the following lines in the file, 
+# which will make Nginx automatically try to restart in every 5 seconds, whenever Nginx stops/fails to start.
+[Service]
+Restart=always
+RestartSec=5s
+
+sudo systemctl daemon-reload
+----------------------------
+
+
+# Required Software Dependencies Setup
+----------------------------
+sudo apt update
+sudo apt install python3-pip python3-dev python3-venv libpq-dev
+sudo apt install postgresql postgresql-contrib
+sudo apt install supervisor
+sudo apt install redis
+----------------------------
+
+
+# Postgres Database Setup
+----------------------------
+# DB User, DB passowrd setup as per Django Projects .env provided
+# Create Two Database as DEV_DB, PROD_DB for each project
+# For DB Cred Values, please use locally dev .env file or create as per ur wish and update PROD_DB values in .env
+sudo -u postgres psql
+
+CREATE DATABASE innerkomdevapidb;
+CREATE DATABASE innerkomapiproddb;
+
+CREATE USER wmdspgadmin WITH PASSWORD 'neuron2023';
+
+ALTER ROLE wmdspgadmin SET client_encoding TO 'utf8';
+ALTER ROLE wmdspgadmin SET default_transaction_isolation TO 'read committed';
+ALTER ROLE wmdspgadmin SET timezone TO 'Asia/Kolkata';
+
+# whenever you create new Database, you must assign wmdspgadmin to DB_NAME
+GRANT ALL PRIVILEGES ON DATABASE innerkomdevapidb TO wmdspgadmin;
+GRANT ALL PRIVILEGES ON DATABASE innerkomapiproddb TO wmdspgadmin;
+
+\q
+----------------------------
+
+
+# Nginx Setup Projectwise
+----------------------------
+sudo nano /etc/nginx/nginx.conf
+
+# Add / update nginx.conf file, by provided in Server/Nginx/nginx.conf
+# Create new YOUR_DOMAIN.conf in /etc/nginx/sites-available/YOUR_DOMAIN.conf
+# Upadted / add YOUR_DOMAIN.conf by provided in Server/Nginx/YOUR_DOMAIN.conf
+# then run below command
+sudo ln -s /etc/nginx/sites-available/innerkomfort_api_dev.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/innerkomfort_api_prod.conf /etc/nginx/sites-enabled/
+
+sudo mkdir /home/wmds/webapps
+sudo mkdir /home/wmds/webapps/innerkomfort
+sudo mkdir /home/wmds/webapps/innerkomfort/innerkomfort_api_prod
+sudo nano touch /home/wmds/webapps/innerkomfort/innerkomfort_api_prod/nginx.access.log
+sudo nano touch /home/wmds/webapps/innerkomfort/innerkomfort_api_prod/nginx.error.log
+sudo mkdir /var/www/innerkomfort/innerkomfort_api_prod
+sudo mkdir /var/www/innerkomfort/innerkomfort_api_prod/staticfiles
+sudo mkdir /var/www/innerkomfort/innerkomfort_api_prod/mediafiles
+sudo mkdir /var/www/innerkomfort/innerkomfort_nextapp/
+
+sudo chown -R $USER:$USER webapps
+sudo chown -R $USER:$USER /var/www/innerkomfort/innerkomfort_api_prod
+sudo chown -R $USER:$USER /var/www/innerkomfort/innerkomfort_api_prod/staticfiles
+sudo chown -R $USER:$USER /var/www/innerkomfort/innerkomfort_api_prod/mediafiles
+sudo chown -R $USER:$USER /var/www/innerkomfort/innerkomfort_nextapp
+
+
+cd /home/wmds/webapps/innerkomfort/innerkomfort_api_prod
+
+# Clone projects Git Repo, 
+# It will generate respective Git Project Name as GIT_REPO_NAME
+sudo git clone YOUR_GIT_REPO_LINK
+
+# go to SERVER_USER_NAME directory
+python3 -m venv innerkomfortdev_env
+
+# Activate YOUR_DOMAIN_env for Django project initial setup & startup
+source innerkomfortdev_env/bin/activate
+
+cd GIT_REPO_NAME
+
+sudo nano .env
+
+# Copy env-example.txt or locally developed .env
+# Replace / update respective variables as per project requirements.
+# Note: DEV_PAHSE=dev ---> use dev for respective CI-CD setup.
+# Once App is ready for Production use DEV_PAHSE=prod for Production Build
+
+# upgrade pip
+pip install --upgrade pip
+
+# install django projects Dependencies
+pip install -r requirements.txt
+----------------------------
+
+# Supervisor Setup Projectwise
+----------------------------
+# Create new YOUR_DOMAIN.conf by below command
+sudo nano /etc/supervisor/conf.d/innerkomfort_api_prod.conf
+
+# Upadted / add YOUR_DOMAIN.conf by provided in Server/supervisor.conf
+# then run below commands 
+sudo supervisorctl reread
+sudo supervisorctl update
+----------------------------
+
+# then again run below commands
+sudo service supervisor restart
+sudo service nginx restart
+
+
+
+
+
+
+
+# DB Backups
+# Get Prod db backup with name of that date-year in /tmp/ directory
+sudo su postgres
+# password - admin123
+cd /tmp
+pg_dump prod_db > prod_db_20230126.sql
+
+# using filezilla downlod it in your local machine
+
+# Restore DB from previous Backups
+# EXISTING_PG_USER_NAME & EXISTING_PG_PASSWORD = U get it from .env of your Project, if not then you have to create it
+sudo psql -U [EXISTING_PG_USER_NAME] -W [EXISTING_PG_PASSWORD] -h localhost -d [TARGET_DB_NAME] -f [PATH_TO_UPLOADED_DB/DB_NAME.sql]
+
+
+
+
+
+# Setup SSL
+
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx --rsa-key-size 4096
+
+or 
+
+sudo apt install certbot python3-certbot-nginx 
+
+sudo certbot --nginx -d www.innerkomfort.in
+sudo certbot --nginx -d backend.innerkomfort.in
+
+
+
+# Linode email port / SMTP availablity check
+# for checking the A record
+dig +short $Domain
+
+# for checking rDNS
+dig -x $IPaddress +short 
+
+# We ask that you configure rDNS for any mailing Linodes you deploy. Our guides on configuring DNS and rDNS records within the Linode Manager are linked below:
+# https://www.linode.com/docs/products/networking/dns-manager/get-started/#add-dns-records
+# https://www.linode.com/docs/networking/dns/configure-your-linode-for-reverse-dns/
+# We also recommend creating an SPF record for your mailing domain as this will help improve email deliverability. For more information, please see our Running a Mail Server guide:
+# https://www.linode.com/docs/email/running-a-mail-server/#spf-records
